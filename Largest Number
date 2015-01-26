@@ -1,0 +1,54 @@
+/*
+ Source:     https://oj.leetcode.com/problems/largest-number/
+ Notes:
+ Given a list of non negative integers, arrange them such that they form the largest number.
+ For example, given [3, 30, 34, 5, 9], the largest formed number is 9534330.
+ Note: The result may be very large, so you need to return a string instead of an integer.
+ Solution: A.rewrite iterator(<String> <Integer>)
+           B.declare a class / rewirte the compare function inside.
+ */
+
+public class SolutionOne {
+    public String largestNumber(int[] num) {
+        int len = num.length;
+        String[] n = new String[len];
+        for(int i = 0; i < len; i++){
+            n[i] = String.valueOf(num[i]);
+        }
+        Arrays.sort(n, new Comparator<String>(){
+            public int compare(String a, String b){
+                String ab = a+b;
+                String ba = b+a;
+                return ba.compareTo(ab);
+            }
+            });
+        String res = "";
+        for(String s: n){
+            res +=  s;
+        }
+        return res.charAt(0) == '0'? "0" : res;
+    }
+}
+   
+class StringComparator implements Comparator<Integer>{
+    public int compare(Integer a, Integer b){
+        String ab = "" + a + b;
+        String ba = "" + b + a;
+        return ba.compareTo(ab);
+    }
+}
+public class SolutionTwo {
+    public String largestNumber(int[] num) {
+        int len = num.length;
+        Integer[] n = new Integer[len];
+        for(int i = 0; i < len; i++){
+            n[i] = Integer.valueOf(num[i]);
+        }
+        Arrays.sort(n, new StringComparator());
+        String res = "";
+        for(Integer s: n){
+            res +=  String.valueOf(s);
+        }
+        return res.charAt(0) == '0'? "0" : res;
+    }
+}
