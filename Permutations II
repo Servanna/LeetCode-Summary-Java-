@@ -1,0 +1,40 @@
+/*
+ Problem:    Permutations II
+ Difficulty: Easy
+ Source:     https://oj.leetcode.com/problems/permutations-ii/
+ Notes:
+ Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+ For example,
+ [1,1,2] have the following unique permutations:
+ [1,1,2], [1,2,1], and [2,1,1].
+ Solution: dfs...
+ */
+ 
+ public class Solution {
+    public List<List<Integer>> permuteUnique(int[] num) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        int len = num.length;
+        Arrays.sort(num);
+        boolean[] visit = new boolean[len];
+        dfs(num, visit, res, new ArrayList<Integer>());
+        return res;
+    }
+    public void dfs(int[] num, boolean[] visit, List<List<Integer>> res, List<Integer> cur){
+        if(cur.size() == num.length){
+            res.add(new ArrayList<Integer>(cur));
+            return;
+        }
+        for(int i = 0; i < num.length; i++){
+            if(!visit[i]){
+                visit[i] = true;
+                cur.add(num[i]);
+                dfs(num, visit, res, cur);
+                cur.remove(cur.size()-1);
+                visit[i] = false;
+                while(i < num.length-1 && num[i] == num[i+1]){
+                    i++;
+                }
+            }
+        }
+    }
+}
