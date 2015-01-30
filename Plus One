@@ -1,0 +1,27 @@
+/*
+ Problem:    Plus One
+ Difficulty: Easy
+ Source:     https://oj.leetcode.com/problems/plus-one/
+ Notes:
+ Given a number represented as an array of digits, plus one to the number.
+ Solution: ...
+ */
+
+public class Solution {
+    public int[] plusOne(int[] digits) {
+        int len = digits.length;
+        int flag = 1;
+        for(int i = len-1; i >= 0; i--){
+            digits[i] += flag;
+            flag = digits[i] / 10;
+            digits[i] = digits[i] % 10;
+        }
+        if(flag == 0){
+            return digits;
+        }
+        int[] res = new int[len+1];
+        res[0] = 1;
+        System.arraycopy(digits, 0, res, 1, digits.length);
+        return res;
+    }
+}
