@@ -1,0 +1,52 @@
+/*
+ Author:     King, higuige@gmail.com
+ Date:       Oct 7, 2014
+ Problem:    Partition List
+ Difficulty: Medium
+ Source:     https://oj.leetcode.com/problems/palindrome-partitioning/
+ Notes:
+ Given a string s, partition s such that every substring of the partition is a palindrome.
+ Return all possible palindrome partitioning of s.
+ For example, given s = "aab",
+ Return
+  [
+    ["aa","b"],
+    ["a","a","b"]
+  ]
+ Solution: dfs
+ */
+ 
+public class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<List<String>>();
+        if(s == null || s.length() == 0){return res;}
+        dfs(res, new ArrayList<String>(), s, 0);
+        return res;
+    }
+    public void dfs(List<List<String>> res, List<String> cur, String s, int index){
+        if(index == s.length()){
+            res.add(new ArrayList<String>(cur));
+            return;
+        }
+        for(int i = index+1; i <= s.length(); i++ ){
+            String temp = s.substring(index, i);
+            if(valid(temp)){
+                cur.add(temp);
+                dfs(res, cur, s, i);
+                cur.remove(cur.size()-1);
+            }
+        }
+    }
+    public boolean valid(String s){
+        int i = 0; 
+        int j = s.length()-1;
+        while(i < j){
+            if(s.charAt(i) != s.charAt(j)){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+}
