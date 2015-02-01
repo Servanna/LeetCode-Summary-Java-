@@ -1,0 +1,65 @@
+/*
+ Problem:    Binary Tree Zigzag Level Order Traversal
+ Difficulty: Easy
+ Source:     https://oj.leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+ Notes:
+ Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left 
+ to right, then right to left for the next level and alternate between).
+ For example:
+ Given binary tree {3,9,20,#,#,15,7},
+     3
+    / \
+   9  20
+  / \
+ 15  7
+ return its zigzag level order traversal as:
+ [
+  [3],
+  [20,9],
+  [15,7]
+ ]
+ Solution: 1. Queue + reverse.
+           2. Two stacks.
+ */
+
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(root == null){return res;}
+        LinkedList<TreeNode> q = new LinkedList<TreeNode>();
+        List<Integer> cur = new ArrayList<Integer>();
+        boolean flag = false;
+        q.offer(root);
+        int n = q.size();
+        while(!q.isEmpty()){
+            TreeNode node = q.poll();
+            n--;
+            cur.add(node.val);
+            if(node.left!= null){
+                q.offer(node.left);
+            }
+            if(node.right != null){
+                q.offer(node.right);
+            }
+            if(n == 0){
+                n = q.size();
+                if(flag){
+                    Collections.reverse(cur);
+                }
+                flag = !flag;
+                res.add(cur);
+                cur = new ArrayList<Integer>();
+            }
+        }
+        return res;
+    }
+}
