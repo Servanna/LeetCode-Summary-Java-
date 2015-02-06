@@ -103,3 +103,31 @@ public:
 		return state == 1 || state == 4 || state == 7 || state == 8;
 	}
 };
+public class Solution {
+    public boolean isNumber(String s) {
+        if(s == null || s.length() == 0){return false;}
+        s = s.trim();
+        int i = 0;
+        while(i < s.length() && s.charAt(i) == ' '){i++;}
+        if(i < s.length() && (s.charAt(i) == '+' || s.charAt(i) == '-')){i++;}
+        int digits = 0, point = 0;
+        while(i < s.length() && ( (s.charAt(i) >= '0' && s.charAt(i) <='9') || s.charAt(i) == '.')){
+            if(s.charAt(i) == '.'){point++;}
+            else{digits++;}
+            i++;
+        }
+        int edigits = 0, epoint = 0;
+        boolean e = false;
+        if(i < s.length() && (s.charAt(i) == 'e' || s.charAt(i) == 'E')){
+            i++;
+            e = true;
+            if(i < s.length() && (s.charAt(i) == '+' || s.charAt(i) == '-')){i++;}
+            while(i < s.length() && ((s.charAt(i) >= '0' && s.charAt(i) <='9') || s.charAt(i) == '.')){
+                if(s.charAt(i) == '.'){epoint++;}
+                else{edigits++;}
+                i++;
+            }
+        }
+        return i == s.length() && digits > 0 && point <= 1 && ((e && edigits>0 && epoint == 0) || (!e && edigits==0 && epoint == 0));
+    }
+}
