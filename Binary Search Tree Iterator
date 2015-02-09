@@ -1,0 +1,90 @@
+/*
+ Author:     king, wangjingui@outlook.com
+ Date:       Dec 31, 2014
+ Problem:    Binary Search Tree Iterator 
+ Difficulty: Easy
+ Source:     https://oj.leetcode.com/problems/binary-search-tree-iterator/
+ Notes:
+ Implement an iterator over a binary search tree (BST). Your iterator will be initialized with the root node of a BST.
+ Calling next() will return the next smallest number in the BST.
+ Note: next() and hasNext() should run in average O(1) time and uses O(h) memory, where h is the height of the tree.
+ Solution: Inorder traversal.
+ */
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+public class BSTIterator {
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+
+    public BSTIterator(TreeNode root) {
+        while(root != null){
+            stack.push(root);
+            root = root.left;
+        }
+    }
+
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+
+    /** @return the next smallest number */
+    public int next() {
+        if(stack.peek().right != null){
+            TreeNode pre = stack.pop();
+            TreeNode node = pre.right;
+            while(node != null){
+                stack.push(node);
+                node = node.left;
+            }
+            stack.push(pre);
+        }
+        return stack.pop().val;
+    }
+}
+
+public class BSTIterator {
+    Private TreeNode node;
+    public BSTIterator(TreeNode root) {
+        node = root;
+    }
+
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+        return node != null;
+    }
+
+    /** @return the next smallest number */
+    public int next() {
+        int val = 0;
+        while(node != null){
+            if(node.left != null){
+                TreeNode t = node.left;
+                while(t.right != null && t.right != node){
+                    t = t.right;
+                }
+                if(t.right == null){
+                    t.right = node;
+                    node = node.left;
+                }else{
+                    t.right = null;
+                    val = node.val;
+                    node = node.right;
+                    return val;
+                }
+            }else{
+                val = node.val;
+                node = node.right;
+                return val;
+            }
+        }
+        return val;
+    }
+}
