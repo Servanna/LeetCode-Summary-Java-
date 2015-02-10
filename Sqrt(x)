@@ -1,0 +1,48 @@
+/*
+ Problem:    Sqrt(x)
+ Difficulty: Easy
+ Source:     http://leetcode.com/onlinejudge#question_69
+ Notes:
+ Implement int sqrt(int x).
+ Compute and return the square root of x.
+ Solution: 1. Binary search in range [0, x / 2 + 1].
+           2. Newton iteration method. x(i+1) = (x(i) + n/x(i)) / 2.
+ See my blog (http://www.cnblogs.com/AnnieKim/archive/2013/04/18/3028607.html) for more explanation (in Chinese).
+ */
+public class Solution {
+    public int sqrt(int x) {
+        int  i = 1;
+        int  j = x / 2 ;
+        if(x < 2){return x;}
+        while(i <= j){
+            int mid = (i+j)/2;
+            if(x/mid == mid){
+                return mid;
+            }else if(x/mid < mid){
+                j = mid-1;
+            }else{
+                i = mid+1;
+            }
+        }
+        return j;
+    }
+}
+public class Solution {
+    public int sqrt(int x) {
+        //if(x < 2){return x;}
+        long  i = 1;
+        long  j = x / 2 + 1;// conside case x == 1,
+        while(i <= j){
+            long mid = (i+j)/2;
+            long res = mid*mid;
+            if(res == x){
+                return (int)mid;
+            }else if(x < res){
+                j = mid-1;
+            }else{
+                i = mid+1;
+            }
+        }
+        return (int)j;
+    }
+}
