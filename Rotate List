@@ -1,0 +1,51 @@
+/*
+ Problem:    Rotate List
+ Difficulty: Easy
+ Source:     https://oj.leetcode.com/problems/rotate-list/
+ Notes:
+ Given a list, rotate the list to the right by k places, where k is non-negative.
+ For example:
+ Given 1->2->3->4->5->NULL and k = 2,
+ return 4->5->1->2->3->NULL.
+ Solution: Notice that k can be larger than the list size (k % list_size).
+           This solution traverses the list twice at most.
+
+ /**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode rotateRight(ListNode head, int n) {
+        ListNode fast = head;
+        int len = 0;
+        while(fast != null){
+            len++;
+            fast = fast.next;
+        }
+        if(len == 0 || len == 1 || n == 0 || (n%len == 0)){
+            return head;
+        }
+        n = n%len;
+        fast = head;
+        while(n > 0){
+            fast = fast.next;
+            n--;
+        }
+        ListNode slow = head;
+        while(fast.next != null){
+            fast = fast.next;
+            slow = slow.next;
+        }
+        ListNode nhead = slow.next;
+        slow.next = null;
+        fast.next = head;
+        return nhead;
+    }
+}
